@@ -9,9 +9,9 @@ const prisma = new PrismaClient()
 const app = express();
 
 const redisConnection = {
-    host: process.env.REDIS_HOST,
-    port: Number(process.env.REDIS_PORT),
-    password: process.env.REDIS_PASS
+    host: process.env.REDISHOST,
+    port: Number(process.env.REDISPORT),
+    password: process.env.REDISPASSWORD
 };
 
 const upsertQueue = new Queue('UpsertVideos', {
