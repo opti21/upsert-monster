@@ -26,7 +26,6 @@ app.get('/', (req, res) => {
 
 app.post('/createJob', async (req, res) => {
     console.log("CREATE JOB")
-    console.log(req.body)
     if (!req.body.channelId || !req.body.videos || !req.body.date) {
       console.log("INVALID REQUEST", req)
       return res.status(400).end()
@@ -42,15 +41,12 @@ app.post('/createJob', async (req, res) => {
 
 app.get('/getProgress', async (req, res) => {
     console.log("GET PROGRESS")
-    console.log(req.query)
     if (!req.query.jobId) {
       console.log("INVALID REQUEST", req)
       return res.status(400).end()
     }
 
-    const jobs = await upsertQueue.getJobs(['waiting', 'active', 'delayed', 'completed', 'failed', 'paused'], 0, 1000)
-
-    const job: Job | undefined = jobs.find((j: Job) => j.name.startsWith(`upsertVideos-${req.query.jobId}`))
+    const job = await upsertQueue.getJob(req.query.jobId as string) 
 
     if (!job) {
       return res.status(200).json({progress: 100})
