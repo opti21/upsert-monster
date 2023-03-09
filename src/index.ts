@@ -26,12 +26,12 @@ app.get('/', (req, res) => {
 
 app.post('/createJob', async (req, res) => {
     console.log("CREATE JOB")
-    if (!req.body.channelId || !req.body.videos || !req.body.date) {
+    if (!req.body.jobId) {
       console.log("INVALID REQUEST", req)
       return res.status(400).end()
     }
 
-    await upsertQueue.add(`upsertVideos-${req.body.channelId}-${req.body.date}`, {
+    await upsertQueue.add(req.body.jobId, {
         channelId: req.body.channelId,
         videos: req.body.videos
     })
