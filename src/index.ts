@@ -18,7 +18,7 @@ const upsertQueue = new Queue('UpsertVideos', {
     connection: redisConnection
 });
 
-app.use(express.json({ limit: '50mb' }));
+app.use(express.json({ limit: '500mb' }));
 
 app.get('/', (req, res) => {
     res.send('UpsertMonster is running!');
