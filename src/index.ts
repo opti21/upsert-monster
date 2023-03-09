@@ -31,8 +31,7 @@ app.post('/createJob', async (req, res) => {
       return res.status(400).end()
     }
 
-    await upsertQueue.add(req.body.jobId, {
-        channelId: req.body.channelId,
+    await upsertQueue.add('upsertVideos-' + req.body.jobId, {
         videos: req.body.videos
     })
 
@@ -63,7 +62,6 @@ const queueEvents = new QueueEvents('UpsertVideos', {
 
 new Worker('UpsertVideos', async job => {
   if (job.name.startsWith('upsertVideos-')) {
-    console.log("Upserting videos for channel: " + job.data.channelId )
     const videos = job.data.videos
 
     for(let i = 0; i < videos.length; i++) {
